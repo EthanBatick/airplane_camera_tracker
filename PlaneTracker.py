@@ -47,7 +47,7 @@ class PlaneTracker:
             #print(self.master_inclination_target)
             print()
             self.write_angles_to_serial()
-            time.sleep(0.2)
+            time.sleep(0.01)
 
     def update_targets(self):
         geod = Geod(ellps="WGS84")
