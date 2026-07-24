@@ -5,6 +5,7 @@ import threading
 from datetime import datetime
 from math import atan2, degrees
 from pyproj import Geod
+import sys
 
 
 class PlaneTracker:
@@ -28,6 +29,9 @@ class PlaneTracker:
         self.master_heading_target = -1
         self.master_inclination_target = -1
 
+        self.serial1 = serial.Serial('/dev/serial0', baudrate=115200, timeout=.5)
+
+
     def start(self):
         fetch_data_loop_t = threading.Thread(
             target=self.fetch_data_loop,
@@ -39,9 +43,10 @@ class PlaneTracker:
 
         while True:
             self.update_targets()
-            print(self.master_heading_target)
-            print(self.master_inclination_target)
+            #print(self.master_heading_target)
+            #print(self.master_inclination_target)
             print()
+            self.write_angles_to_serial()
             time.sleep(0.2)
 
     def update_targets(self):
@@ -134,3 +139,8 @@ class PlaneTracker:
                 time.sleep(10)
 
             time.sleep(8)
+
+    def write_angles_to_serial(self):
+        payload = str(self.master_heading_target) + "," + str(self.master_inclination_target) + "\r"
+        self.serial1.write(payload.encode('utf-8'))
+        print(f"Response: {self.serial1.read(20).decode()}")
