@@ -6,7 +6,7 @@ from datetime import datetime
 from math import atan2, degrees
 from pyproj import Geod
 import sys
-
+import serial
 
 class PlaneTracker:
     def __init__(

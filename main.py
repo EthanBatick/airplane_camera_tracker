@@ -1,7 +1,10 @@
+#!/usr/bin/python
+
 from PlaneTracker import PlaneTracker
+import sys
 
 pt = PlaneTracker(
-    "a4460d",
+    str(sys.argv[1]),
     (39.663280, -104.995552),
     1630
 )
